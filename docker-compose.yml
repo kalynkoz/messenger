@@ -1,0 +1,8 @@
+version: '3'
+services:
+  messenger-service:
+    build:
+      context: .
+    command: java -jar messenger.jar
+    ports:
+    - 8080:8080
