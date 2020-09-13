@@ -1,9 +1,9 @@
 package com.kalyn.messenger.controller
 
+import com.kalyn.messenger.models.Message
 import com.kalyn.messenger.service.MessengerService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.util.logging.Logger
 
 @RestController
@@ -15,5 +15,19 @@ class MessengerController
     @GetMapping("/hello")
     fun home(): String {
         return messengerService.hello()
+    }
+
+    @GetMapping("/messages/{userId}")
+    fun getMessages(
+        @PathVariable userId: String
+    ) : List<Message> {
+        TODO()
+    }
+
+    @PostMapping("/message")
+    fun sendMessage(
+            @RequestBody message: Message
+    ) {
+        TODO()
     }
 }
