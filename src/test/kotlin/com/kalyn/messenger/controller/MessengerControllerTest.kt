@@ -1,6 +1,6 @@
 package com.kalyn.messenger.controller
 
-import com.kalyn.messenger.models.Database
+import com.kalyn.messenger.models.Message
 import com.kalyn.messenger.service.MessengerService
 import io.mockk.every
 import io.mockk.mockk
@@ -11,8 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner
 
 @RunWith(SpringRunner::class)
 internal class MessengerControllerTest {
-    private val db = Database.messagesByRecipient
-
     private val messengerService: MessengerService = mockk()
     private val messengerController = MessengerController(messengerService)
 
@@ -33,6 +31,8 @@ internal class MessengerControllerTest {
 
     @Test
     fun `sendMessage updates db`() {
-        
+        assertDoesNotThrow {
+            messengerController.sendMessage(Message("1", "2", "3", "4", "hi"))
+        }
     }
 }

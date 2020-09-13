@@ -52,3 +52,9 @@ to match the current query needs. This would have then expanded nicely to additi
 
 Additionally, I would add the remaining CRUD functionality and add other `read` query patterns such as 
 `getMessagesBySender` or `getMessagesFromConversation`.
+
+### Housekeeping Changes
+The following are chores I would likely have done if I were going to continue working this:
+1. Extracted interfaces to keep the connections between controller and service clean and free from implementation details
+2. End-to-End tests with DB once set-up
+3. Data validation, specifically in tests

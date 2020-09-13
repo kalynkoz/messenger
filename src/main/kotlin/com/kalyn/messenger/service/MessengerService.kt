@@ -1,14 +1,24 @@
 package com.kalyn.messenger.service
 
+import com.kalyn.messenger.datastore.Database
+import com.kalyn.messenger.models.Message
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.logging.Logger
 
 @Service
-class MessengerService {
+class MessengerService(
+        @Autowired val db: Database
+) {
     val logger = Logger.getLogger(this::class.java.canonicalName)
 
     fun hello(): String {
-        logger.info("HELLO CALLED")
-        return "Hello from service"
+        return "Hello from the messaging service!"
+    }
+
+    fun getMessagesByRecipient(rId: String): List<Message> {
+        val allMessages = db.messagesByRecipient.getOrDefault(rId, emptyList())
+
+        return allMessages
     }
 }
