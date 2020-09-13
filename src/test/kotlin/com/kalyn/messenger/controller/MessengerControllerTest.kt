@@ -40,9 +40,9 @@ internal class MessengerControllerTest {
                 Message("a4a", "ab", "ac2", "ad3", "orange", 1600030445)
         )
 
-        assertDoesNotThrow{
-            messengerController.getRecentMessages("ad3")
-        }
+        every { messengerService.getRecentMessagesByRecipient(any()) } returns response
+
+        assertEquals(response, messengerController.getRecentMessagesForRecipient("ad3"))
     }
 
     @Test

@@ -24,10 +24,10 @@ class MessengerController
     }
 
     @GetMapping("/messages/recent/{recipientId}")
-    fun getRecentMessages(
+    fun getRecentMessagesForRecipient(
             @PathVariable recipientId: String
     ) : List<Message> {
-        TODO()
+        return messengerService.getMessagesByRecipient(recipientId)
     }
 
     @PostMapping("/message")
