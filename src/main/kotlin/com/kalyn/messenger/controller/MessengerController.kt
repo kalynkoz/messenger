@@ -10,16 +10,22 @@ import java.util.logging.Logger
 class MessengerController
 @Autowired constructor(private val messengerService: MessengerService)
 {
-    val logger = Logger.getLogger(this::class.java.canonicalName)
-
     @GetMapping("/hello")
     fun home(): String {
         return messengerService.hello()
     }
 
-    @GetMapping("/messages/{userId}")
-    fun getMessages(
-        @PathVariable userId: String
+    // No more than 100 messages sent
+    @GetMapping("/messages/{recipientId}")
+    fun getMessagesForRecipient(
+        @PathVariable recipientId: String
+    ) : List<Message> {
+        return messengerService.getMessagesByRecipient(recipientId)
+    }
+
+    @GetMapping("/messages/recent/{recipientId}")
+    fun getRecentMessages(
+            @PathVariable recipientId: String
     ) : List<Message> {
         TODO()
     }

@@ -10,6 +10,7 @@ import java.util.logging.Logger
 class MessengerService(
         @Autowired val db: Database
 ) {
+    private val LIMIT = 100
     val logger = Logger.getLogger(this::class.java.canonicalName)
 
     fun hello(): String {
@@ -18,6 +19,14 @@ class MessengerService(
 
     fun getMessagesByRecipient(rId: String): List<Message> {
         val allMessages = db.messagesByRecipient.getOrDefault(rId, emptyList())
+
+        if (allMessages.isEmpty()) {
+            logger.warning("$rId was not found in the database")
+        }
+        else if(allMessages.size > LIMIT) {
+            logger.warning("$rId has ${allMessages.size} returning first $LIMIT")
+            return allMessages.subList(0, LIMIT)
+        }
 
         return allMessages
     }

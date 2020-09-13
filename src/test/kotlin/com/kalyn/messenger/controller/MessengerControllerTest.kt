@@ -23,9 +23,25 @@ internal class MessengerControllerTest {
     }
 
     @Test
-    fun `getMessages returns a list of messages`() {
-        assertDoesNotThrow {
-            messengerController.getMessages("000000")
+    fun `getMessagesForRecipient returns a list of messages`() {
+        val response = listOf(
+               Message("a", "ab", "ac2", "ad3", "knock knock", 1600030415),
+               Message("a4a", "ab", "ac2", "ad3", "orange", 1600030445)
+        )
+        every { messengerService.getMessagesByRecipient(any()) } returns response
+
+        assertEquals(response, messengerController.getMessagesForRecipient("ad3"))
+    }
+
+    @Test
+    fun `getRecentMessages returns a list of messages`() {
+        val response = listOf(
+                Message("a", "ab", "ac2", "ad3", "knock knock", 1600030415),
+                Message("a4a", "ab", "ac2", "ad3", "orange", 1600030445)
+        )
+
+        assertDoesNotThrow{
+            messengerController.getRecentMessages("ad3")
         }
     }
 
