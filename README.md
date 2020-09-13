@@ -58,3 +58,4 @@ The following are chores I would likely have done if I were going to continue wo
 1. Extracted interfaces to keep the connections between controller and service clean and free from implementation details
 2. End-to-End tests with DB once set-up
 3. Data validation, specifically in tests
+4. Separate reads and writes in controller and in service

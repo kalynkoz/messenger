@@ -21,6 +21,13 @@ class MessengerService(
         return "Hello from the messaging service!"
     }
 
+    fun addMessageByRecipient(message: Message) {
+        val rId = message.recipient
+        val allMessages = getMessages(rId)
+
+        db.messagesByRecipient[rId] = allMessages.plus(message)
+    }
+
     fun getMessagesByRecipient(rId: String): List<Message> {
         val allMessages = getMessages(rId)
         if(allMessages.size > LIMIT) {

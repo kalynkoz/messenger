@@ -15,6 +15,13 @@ class MessengerController
         return messengerService.hello()
     }
 
+    @PostMapping("/message")
+    fun sendMessage(
+            @RequestBody message: Message
+    ) {
+        messengerService.addMessageByRecipient(message)
+    }
+
     // No more than 100 messages sent
     @GetMapping("/messages/{recipientId}")
     fun getMessagesForRecipient(
@@ -28,12 +35,5 @@ class MessengerController
             @PathVariable recipientId: String
     ) : List<Message> {
         return messengerService.getMessagesByRecipient(recipientId)
-    }
-
-    @PostMapping("/message")
-    fun sendMessage(
-            @RequestBody message: Message
-    ) {
-        TODO()
     }
 }

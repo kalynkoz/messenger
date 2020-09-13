@@ -25,6 +25,43 @@ internal class MessengerServiceTest {
     }
 
     @Test
+    fun `add message for new recipient`() {
+        val message = Message(
+                id= db.generateId(),
+                convoId = "123",
+                sender = "ag4a6a3g4dfg",
+                recipient = RID,
+                content = "doctor who?",
+                sentAt = 1600039924
+        )
+        assertFalse(db.messagesByRecipient.containsKey(RID))
+
+        service.addMessageByRecipient(message)
+        assertTrue(db.messagesByRecipient.containsKey(RID))
+        assertEquals(listOf(message), db.messagesByRecipient[RID])
+    }
+
+    @Test
+    fun `add message for current recipient`() {
+        val messages = getMessagesForDB()
+        addToDB(messages)
+        assertTrue(db.messagesByRecipient.containsKey(RID))
+
+        val message = Message(
+                id= db.generateId(),
+                convoId = "123",
+                sender = "ag4a6a3g4dfg",
+                recipient = RID,
+                content = "doctor who?",
+                sentAt = 1600039924
+        )
+
+        service.addMessageByRecipient(message)
+        assertTrue(db.messagesByRecipient.containsKey(RID))
+        assertEquals(messages.plus(message), db.messagesByRecipient[RID])
+    }
+
+    @Test
     fun `getMessagesByRecipient returns a list of messages`() {
         val messages = getMessagesForDB()
         addToDB(messages)
@@ -66,7 +103,7 @@ internal class MessengerServiceTest {
                 id= db.generateId(),
                 convoId = "123",
                 sender = "ag4a6a3g4dfg",
-                recipient = "agagh5a3h",
+                recipient = RID,
                 content = "doctor who?",
                 sentAt = Instant.now().minus(32, ChronoUnit.DAYS).epochSecond
         )
@@ -86,7 +123,7 @@ internal class MessengerServiceTest {
                     id= db.generateId(),
                     convoId = "123",
                     sender = "ag4a6a3g4dfg",
-                    recipient = "agagh5a3h",
+                    recipient = RID,
                     content = "HI!".repeat(i),
                     sentAt = Instant.now().minus(2, ChronoUnit.DAYS).epochSecond
                 ))
@@ -104,7 +141,7 @@ internal class MessengerServiceTest {
                             id= db.generateId(),
                             convoId = "123",
                             sender = "ag4a6a3g4dfg",
-                            recipient = "agagh5a3h",
+                            recipient = RID,
                             content = "hey ".repeat(i),
                             sentAt = Instant.now().epochSecond
                     ))

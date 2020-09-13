@@ -3,7 +3,9 @@ package com.kalyn.messenger.controller
 import com.kalyn.messenger.models.Message
 import com.kalyn.messenger.service.MessengerService
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.runs
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.runner.RunWith
@@ -20,6 +22,14 @@ internal class MessengerControllerTest {
         every { messengerService.hello() } returns response
 
        assertEquals(response, messengerController.home())
+    }
+
+    @Test
+    fun `sendMessage updates db`() {
+        every { messengerService.addMessageByRecipient(any()) } just runs
+        assertDoesNotThrow {
+            messengerController.sendMessage(Message("1", "2", "3", "4", "hi"))
+        }
     }
 
     @Test
@@ -43,12 +53,5 @@ internal class MessengerControllerTest {
         every { messengerService.getRecentMessagesByRecipient(any()) } returns response
 
         assertEquals(response, messengerController.getRecentMessagesForRecipient("ad3"))
-    }
-
-    @Test
-    fun `sendMessage updates db`() {
-        assertDoesNotThrow {
-            messengerController.sendMessage(Message("1", "2", "3", "4", "hi"))
-        }
     }
 }
