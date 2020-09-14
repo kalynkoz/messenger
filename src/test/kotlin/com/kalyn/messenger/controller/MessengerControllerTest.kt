@@ -44,7 +44,7 @@ internal class MessengerControllerTest {
     }
 
     @Test
-    fun `getRecentMessages returns a list of messages`() {
+    fun `getRecentMessagesByRecipient returns a list of messages`() {
         val response = listOf(
                 Message("a", "ab", "ac2", "ad3", "knock knock", 1600030415),
                 Message("a4a", "ab", "ac2", "ad3", "orange", 1600030445)
@@ -53,5 +53,27 @@ internal class MessengerControllerTest {
         every { messengerService.getRecentMessagesByRecipient(any()) } returns response
 
         assertEquals(response, messengerController.getRecentMessagesForRecipient("ad3"))
+    }
+
+    @Test
+    fun `getMessages returns a list of messages`() {
+        val response = listOf(
+                Message("a", "ab", "ac2", "ad3", "knock knock", 1600030415),
+                Message("a4a", "ab", "ac2", "ad3", "orange", 1600030445)
+        )
+        every { messengerService.getAllMessages() } returns response
+
+        assertEquals(response, messengerController.getMessages())
+    }
+
+    @Test
+    fun `getRecentMessages returns a list of messages`() {
+        val response = listOf(
+                Message("a", "ab", "ac2", "ad3", "knock knock", 1600030415),
+                Message("a4a", "ab", "ac2", "ad3", "orange", 1600030445)
+        )
+        every { messengerService.getRecentMessages() } returns response
+
+        assertEquals(response, messengerController.getRecentMessages())
     }
 }

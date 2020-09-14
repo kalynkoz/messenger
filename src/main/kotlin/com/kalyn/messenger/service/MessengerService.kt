@@ -12,7 +12,7 @@ import java.util.logging.Logger
 class MessengerService(
         @Autowired val db: Database
 ) {
-    private val LIMIT = 100
+    val LIMIT = 100
     private val STALE_DAYS: Long = 30
 
     val logger = Logger.getLogger(this::class.java.canonicalName)
@@ -31,7 +31,7 @@ class MessengerService(
     fun getMessagesByRecipient(rId: String): List<Message> {
         val allMessages = getMessages(rId)
         if(allMessages.size > LIMIT) {
-            logger.warning("$rId has ${allMessages.size} returning first $LIMIT")
+            logger.warning("$rId has ${allMessages.size} messages, returning first $LIMIT")
             return allMessages.subList(0, LIMIT)
         }
 
@@ -41,10 +41,26 @@ class MessengerService(
     fun getRecentMessagesByRecipient(rId: String): List<Message> {
         val allMessages = getMessages(rId)
 
-        return allMessages.filter { it.sentAt > Instant.now().minus(STALE_DAYS, ChronoUnit.DAYS).epochSecond }
+        return filterRecent(allMessages)
     }
 
-    private fun getMessages(rId: String): List<Message>{
+    fun getAllMessages(): List<Message> {
+        val allMessages = getDbMessages()
+
+        if(allMessages.size > LIMIT) {
+            logger.warning("Database has ${allMessages.size} messages, returning first $LIMIT")
+            return allMessages.subList(0, LIMIT)
+        }
+
+        return allMessages
+    }
+
+    fun getRecentMessages(): List<Message> {
+        val allMessages = getDbMessages()
+        return filterRecent(allMessages)
+    }
+
+    private fun getMessages(rId: String): List<Message> {
         val allMessages = db.messagesByRecipient.getOrDefault(rId, emptyList())
 
         if (allMessages.isEmpty()) {
@@ -52,5 +68,12 @@ class MessengerService(
         }
 
         return allMessages
+    }
+
+    private fun getDbMessages(): List<Message> = db.messagesByRecipient.values.flatten()
+
+    private fun filterRecent(messages: List<Message>): List<Message>
+    {
+        return messages.filter { it.sentAt > Instant.now().minus(STALE_DAYS, ChronoUnit.DAYS).epochSecond }
     }
 }

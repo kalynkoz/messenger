@@ -36,4 +36,15 @@ class MessengerController
     ) : List<Message> {
         return messengerService.getMessagesByRecipient(recipientId)
     }
+
+    // No more than 100 messages sent
+    @GetMapping("/messages")
+    fun getMessages() : List<Message> {
+        return messengerService.getAllMessages()
+    }
+
+    @GetMapping("/messages/recent")
+    fun getRecentMessages() : List<Message> {
+        return messengerService.getRecentMessages()
+    }
 }
