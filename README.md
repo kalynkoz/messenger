@@ -13,12 +13,15 @@ This is a simple messaging API with the following endpoints for interacting with
     * Returns all messages from the past 30 days    
 1. POST `/message` 
     * `sentAt` is an optional, long and if not included, sentAt = Time.now.epochSecond
+    * `id` is an optional, string and if not included, id will be generated
 ```json
 {
+  "convoId": "Conversation's id string"
   "sender": "Sender's id string", 
   "recipient": "Recipient's id string", 
   "content": "Message that was sent", 
-  "sentAt": 1600030385 
+  "sentAt": 1600030385,
+  "id": "Database ID"
 }        
 ```
 
