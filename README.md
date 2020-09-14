@@ -16,7 +16,7 @@ This is a simple messaging API with the following endpoints for interacting with
     * `id` is an optional, string and if not included, id will be generated
 ```json
 {
-  "convoId": "Conversation's id string"
+  "convoId": "Conversation's id string",
   "sender": "Sender's id string", 
   "recipient": "Recipient's id string", 
   "content": "Message that was sent", 
