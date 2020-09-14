@@ -69,11 +69,11 @@ curl -X POST \
 
 GET
 ```bash
-curl -localhost:8080/messages
+curl localhost:8080/messages
 ```
 
 ```bash
-curl -localhost:8080/messages/recent//R5467ggjkZF
+curl localhost:8080/messages/recent/R5467ggjkZF
 ```
 
 
