@@ -28,15 +28,15 @@ internal class MessengerControllerTest {
     fun `sendMessage updates db`() {
         every { messengerService.addMessageByRecipient(any()) } just runs
         assertDoesNotThrow {
-            messengerController.sendMessage(Message("1", "2", "3", "4", "hi"))
+            messengerController.sendMessage(Message("1", "2", "3", "hi"))
         }
     }
 
     @Test
     fun `getMessagesForRecipient returns a list of messages`() {
         val response = listOf(
-               Message("a", "ab", "ac2", "ad3", "knock knock", 1600030415),
-               Message("a4a", "ab", "ac2", "ad3", "orange", 1600030445)
+               Message("a", "ab", "ac2", "knock knock", 1600030415),
+               Message("a", "ab", "ac2",  "orange", 1600030445)
         )
         every { messengerService.getMessagesByRecipient(any()) } returns response
 
@@ -46,8 +46,8 @@ internal class MessengerControllerTest {
     @Test
     fun `getRecentMessagesByRecipient returns a list of messages`() {
         val response = listOf(
-                Message("a", "ab", "ac2", "ad3", "knock knock", 1600030415),
-                Message("a4a", "ab", "ac2", "ad3", "orange", 1600030445)
+                Message("a", "ab", "ac2", "knock knock", 1600030415),
+                Message("a", "ab", "ac2",  "orange", 1600030445)
         )
 
         every { messengerService.getRecentMessagesByRecipient(any()) } returns response
@@ -58,8 +58,8 @@ internal class MessengerControllerTest {
     @Test
     fun `getMessages returns a list of messages`() {
         val response = listOf(
-                Message("a", "ab", "ac2", "ad3", "knock knock", 1600030415),
-                Message("a4a", "ab", "ac2", "ad3", "orange", 1600030445)
+                Message("a", "ab", "ac2","knock knock", 1600030415),
+                Message("a", "ab", "ac2",  "orange", 1600030445)
         )
         every { messengerService.getAllMessages() } returns response
 
@@ -69,8 +69,8 @@ internal class MessengerControllerTest {
     @Test
     fun `getRecentMessages returns a list of messages`() {
         val response = listOf(
-                Message("a", "ab", "ac2", "ad3", "knock knock", 1600030415),
-                Message("a4a", "ab", "ac2", "ad3", "orange", 1600030445)
+                Message("a", "ab", "ac2", "knock knock", 1600030415),
+                Message("a4a", "ab", "ac2", "orange", 1600030445)
         )
         every { messengerService.getRecentMessages() } returns response
 

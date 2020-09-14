@@ -28,7 +28,6 @@ internal class MessengerServiceTest {
     @Test
     fun `add message for new recipient`() {
         val message = Message(
-                id= db.generateId(),
                 convoId = "123",
                 sender = "ag4a6a3g4dfg",
                 recipient = RID,
@@ -49,7 +48,6 @@ internal class MessengerServiceTest {
         assertTrue(db.messagesByRecipient.containsKey(RID))
 
         val message = Message(
-                id= db.generateId(),
                 convoId = "123",
                 sender = "ag4a6a3g4dfg",
                 recipient = RID,
@@ -126,7 +124,6 @@ internal class MessengerServiceTest {
     fun `getRecentMessagesByRecipient removes messages older than 30 days`() {
         val recentMessages = getMessagesForDB()
         val oldMessage = Message(
-                id= db.generateId(),
                 convoId = "123",
                 sender = "ag4a6a3g4dfg",
                 recipient = RID,
@@ -154,7 +151,6 @@ internal class MessengerServiceTest {
     fun `getRecentMessages removes messages older than 30 days`() {
         val recentMessages = getMessagesForDB().plus(getMessagesForDB(RID2))
         val oldMessage = Message(
-                id= db.generateId(),
                 convoId = "123",
                 sender = "ag4a6a3g4dfg",
                 recipient = RID,
@@ -174,7 +170,6 @@ internal class MessengerServiceTest {
         for(i in 1..15) {
             listToAdd.add(
                 Message(
-                    id= db.generateId(),
                     convoId = "123",
                     sender = "ag4a6a3g4dfg",
                     recipient = rid,
@@ -192,7 +187,6 @@ internal class MessengerServiceTest {
         for(i in 1..105) {
             listToAdd.add(
                     Message(
-                            id= db.generateId(),
                             convoId = "123",
                             sender = "ag4a6a3g4dfg",
                             recipient = rid,

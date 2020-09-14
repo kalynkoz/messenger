@@ -4,7 +4,7 @@ import com.kalyn.messenger.models.Message
 import org.springframework.stereotype.Component
 
 @Component
-class Database() {
+class Database {
     val messagesByRecipient = mutableMapOf<String, List<Message>>()
 
     fun generateId(): String {

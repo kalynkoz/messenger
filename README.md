@@ -1,9 +1,17 @@
 # MESSENGER
 
-This is a simple messaging API with two endpoints for interacting with the database:
+This is a simple messaging API with the following endpoints for interacting with the database:
 1. GET `/messages/{recipientId}`
+    * Returns all messages for a recipient
     * Maximum messages returned: 100
-2. POST `/message` 
+1.  GET `/messages`
+    * Returns all messages from database
+    * Maximum messages returned: 100  
+1. GET `/messages/recent/{recipientId}`
+    * Returns all messages from the past 30 days for a recipient
+1.  GET `/messages/recent`
+    * Returns all messages from the past 30 days    
+1. POST `/message` 
     * `sentAt` is an optional, long and if not included, sentAt = Time.now.epochSecond
 ```json
 {
@@ -29,6 +37,42 @@ Once the application has started:
 * `/hello` only exists for testing purposes
 
 ### Example Commands
+POST
+```bash
+curl -X POST \
+  http://localhost:8080/message \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "convoId": "atlhjkgaFda241",
+  "sender": "slgfsg425s3gGDSg", 
+  "recipient": "R5467ggjkZF", 
+  "content": "Message that was sent", 
+  "sentAt": 1568415467,
+  "id": "324374347afag" 
+}'
+```
+
+```bash
+curl -X POST \
+  http://localhost:8080/message \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "convoId": "atlhjkgaFda241",
+  "sender": "slgfsg425s3gGDSg", 
+  "recipient": "R5467ggjkZF", 
+  "content": "Message that was sent"
+}'
+```
+
+GET
+```bash
+curl -localhost:8080/messages
+```
+
+```bash
+curl -localhost:8080/messages/recent//R5467ggjkZF
+```
+
 
 
 ## Implementation Design :tada:
@@ -51,11 +95,12 @@ rather than in-memory hash. I would have likely chosen a SQL database in order t
 to match the current query needs. This would have then expanded nicely to additional functionality or other query patterns.
 
 Additionally, I would add the remaining CRUD functionality and add other `read` query patterns such as 
-`getMessagesBySender` or `getMessagesFromConversation`.
+`getMessagesBySender` or `getMessagesFromConversation`. It might be beneficial to have a batch endpoint for posts. 
 
 ### Housekeeping Changes
 The following are chores I would likely have done if I were going to continue working this:
 1. Extracted interfaces to keep the connections between controller and service clean and free from implementation details
-2. End-to-End tests with DB once set-up
+2. End to end tests with DB once set-up (only `/hello` is setup)
 3. Data validation, specifically in tests
 4. Separate reads and writes in controller and in service
+5. Add a testing script to pre-load database with some values
