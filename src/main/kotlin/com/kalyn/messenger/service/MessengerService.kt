@@ -17,6 +17,7 @@ class MessengerService(
 
     val logger = Logger.getLogger(this::class.java.canonicalName)
 
+    // non-private methods could be extracted to interface
     fun hello(): String {
         return "Hello from the messaging service!"
     }
@@ -29,7 +30,24 @@ class MessengerService(
     }
 
     fun getMessagesByRecipient(rId: String): List<Message> {
+       return getMessagesWithLimit(rId)
+    }
+
+    fun getAllMessages(): List<Message> {
+        return getMessagesWithLimit()
+    }
+
+    fun getRecentMessagesByRecipient(rId: String): List<Message> {
+        return getRecent(rId)
+    }
+
+    fun getRecentMessages(): List<Message> {
+        return getRecent()
+    }
+
+    private fun getMessagesWithLimit(rId: String? = null): List<Message> {
         val allMessages = getMessages(rId)
+
         if(allMessages.size > LIMIT) {
             logger.warning("$rId has ${allMessages.size} messages, returning first $LIMIT")
             return allMessages.subList(0, LIMIT)
@@ -38,42 +56,23 @@ class MessengerService(
         return allMessages
     }
 
-    fun getRecentMessagesByRecipient(rId: String): List<Message> {
+    private fun getRecent(rId: String? = null): List<Message> {
         val allMessages = getMessages(rId)
 
-        return filterRecent(allMessages)
+        return allMessages.filter { it.sentAt > Instant.now().minus(STALE_DAYS, ChronoUnit.DAYS).epochSecond }
     }
 
-    fun getAllMessages(): List<Message> {
-        val allMessages = getDbMessages()
-
-        if(allMessages.size > LIMIT) {
-            logger.warning("Database has ${allMessages.size} messages, returning first $LIMIT")
-            return allMessages.subList(0, LIMIT)
+    private fun getMessages(rId: String? = null): List<Message> {
+        val allMessages = if(rId.isNullOrEmpty()) {
+            db.messagesByRecipient.values.flatten()
+        } else {
+            db.messagesByRecipient.getOrDefault(rId, emptyList())
         }
-
-        return allMessages
-    }
-
-    fun getRecentMessages(): List<Message> {
-        val allMessages = getDbMessages()
-        return filterRecent(allMessages)
-    }
-
-    private fun getMessages(rId: String): List<Message> {
-        val allMessages = db.messagesByRecipient.getOrDefault(rId, emptyList())
 
         if (allMessages.isEmpty()) {
             logger.warning("$rId was not found in the database")
         }
 
         return allMessages
-    }
-
-    private fun getDbMessages(): List<Message> = db.messagesByRecipient.values.flatten()
-
-    private fun filterRecent(messages: List<Message>): List<Message>
-    {
-        return messages.filter { it.sentAt > Instant.now().minus(STALE_DAYS, ChronoUnit.DAYS).epochSecond }
     }
 }
