@@ -28,7 +28,7 @@ internal class MessengerServiceTest {
     @Test
     fun `add message for new recipient`() {
         val message = Message(
-                convoId = "123",
+                conversationId = "123",
                 sender = "ag4a6a3g4dfg",
                 recipient = RID,
                 content = "doctor who?",
@@ -48,7 +48,7 @@ internal class MessengerServiceTest {
         assertTrue(db.messagesByRecipient.containsKey(RID))
 
         val message = Message(
-                convoId = "123",
+                conversationId = "123",
                 sender = "ag4a6a3g4dfg",
                 recipient = RID,
                 content = "doctor who?",
@@ -124,7 +124,7 @@ internal class MessengerServiceTest {
     fun `getRecentMessagesByRecipient removes messages older than 30 days`() {
         val recentMessages = getMessagesForDB()
         val oldMessage = Message(
-                convoId = "123",
+                conversationId = "123",
                 sender = "ag4a6a3g4dfg",
                 recipient = RID,
                 content = "doctor who?",
@@ -151,7 +151,7 @@ internal class MessengerServiceTest {
     fun `getRecentMessages removes messages older than 30 days`() {
         val recentMessages = getMessagesForDB().plus(getMessagesForDB(RID2))
         val oldMessage = Message(
-                convoId = "123",
+                conversationId = "123",
                 sender = "ag4a6a3g4dfg",
                 recipient = RID,
                 content = "doctor who?",
@@ -170,7 +170,7 @@ internal class MessengerServiceTest {
         for(i in 1..15) {
             listToAdd.add(
                 Message(
-                    convoId = "123",
+                    conversationId = "123",
                     sender = "ag4a6a3g4dfg",
                     recipient = rid,
                     content = "HI!".repeat(i),
@@ -187,7 +187,7 @@ internal class MessengerServiceTest {
         for(i in 1..105) {
             listToAdd.add(
                     Message(
-                            convoId = "123",
+                            conversationId = "123",
                             sender = "ag4a6a3g4dfg",
                             recipient = rid,
                             content = "hey ".repeat(i),

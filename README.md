@@ -16,7 +16,7 @@ This is a simple messaging API with the following endpoints for interacting with
     * `id` is an optional, string and if not included, id will be generated
     ```json
     {
-      "convoId": "Conversation's id string",
+      "conversationId": "Conversation's id string",
       "sender": "Sender's id string", 
       "recipient": "Recipient's id string", 
       "content": "Message that was sent", 
@@ -36,7 +36,7 @@ Once the application has started:
 `curl localhost:8080/health`
 
 ### Notes
-* Step 4 in the build process takes a little-bit of time because it is building the jar.
+* Step 4 in the build process takes a little-bit of time (a couple of minutes) because it is building the jar. 
 * `/health` only exists for testing purposes
 
 ### Example Commands
@@ -46,7 +46,7 @@ curl -X POST \
   http://localhost:8080/messages \
   -H 'Content-Type: application/json' \
   -d '{
-  "convoId": "atlhjkgaFda241",
+  "conversationId": "atlhjkgaFda241",
   "sender": "slgfsg425s3gGDSg", 
   "recipient": "R5467ggjkZF", 
   "content": "Message that was sent", 
@@ -59,7 +59,7 @@ curl -X POST \
   http://localhost:8080/messages \
   -H 'Content-Type: application/json' \
   -d '{
-  "convoId": "atlhjkgaFda241",
+  "conversationId": "atlhjkgaFda241",
   "sender": "slgfsg425s3gGDSg", 
   "recipient": "R5467ggjkZF", 
   "content": "Message that was sent"
@@ -72,7 +72,7 @@ curl localhost:8080/messages
 ```
 
 ```bash
-curl localhost:8080/messages/recent/R5467ggjkZF
+    curl localhost:8080/messages/recent/R5467ggjkZF
 ```
 
 ### Running Test Suite
