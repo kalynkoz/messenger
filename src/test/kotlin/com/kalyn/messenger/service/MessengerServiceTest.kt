@@ -22,7 +22,7 @@ internal class MessengerServiceTest {
 
     @Test
     fun hello() {
-        assertNotNull(service.hello())
+        assertNotNull(service.health())
     }
 
     @Test
@@ -62,7 +62,7 @@ internal class MessengerServiceTest {
 
     @Test
     fun `getMessagesByRecipient returns empty list when recipient is not found`() {
-        val response = service.getMessagesByRecipient(RID)
+        val response = service.getMessagesWithLimit(RID)
         assertEquals(emptyList<Message>(), response)
     }
 
@@ -71,7 +71,7 @@ internal class MessengerServiceTest {
         val messages = getMessagesForDB()
         addToDB(messages)
 
-        val response = service.getMessagesByRecipient(RID)
+        val response = service.getMessagesWithLimit(RID)
         assertEquals(messages.size, response.size)
         assertEquals(messages, response)
     }
@@ -81,32 +81,32 @@ internal class MessengerServiceTest {
         val messages = getMoreThanLimitMessages()
         addToDB(messages)
 
-        val response = service.getMessagesByRecipient(RID)
+        val response = service.getMessagesWithLimit(RID)
         assertEquals(service.LIMIT, response.size)
     }
 
     @Test
-    fun `getAllMessages returns empty list when no recipient is not found`() {
-        val response = service.getAllMessages()
+    fun `getMessages returns empty list when no recipient is not found`() {
+        val response = service.getMessagesWithLimit()
         assertEquals(emptyList<Message>(), response)
     }
 
     @Test
-    fun `getAllMessages returns list of messages`() {
+    fun `getMessages returns list of messages`() {
         val messages = getMessagesForDB().plus(getMessagesForDB(RID2))
         addToDB(messages)
 
-        val response = service.getAllMessages()
+        val response = service.getMessagesWithLimit()
         assertEquals(messages.size, response.size)
         assertEquals(messages, response)
     }
 
     @Test
-    fun `getAllMessages returns a list of limited messages`() {
+    fun `getMessages returns a list of limited messages`() {
         val messages = getMoreThanLimitMessages(RID2).plus(getMessagesForDB())
         addToDB(messages)
 
-        val response = service.getAllMessages()
+        val response = service.getMessagesWithLimit()
         assertEquals(service.LIMIT, response.size)
     }
 
@@ -115,7 +115,7 @@ internal class MessengerServiceTest {
         val messages = getMessagesForDB()
         addToDB(messages)
 
-        val response = service.getRecentMessagesByRecipient(RID)
+        val response = service.getRecentMessages(RID)
         assertEquals(messages.size, response.size)
         assertEquals(messages, response)
     }
@@ -132,7 +132,7 @@ internal class MessengerServiceTest {
         )
         addToDB(recentMessages.plus(oldMessage))
 
-        val response = service.getRecentMessagesByRecipient(RID)
+        val response = service.getRecentMessages(RID)
         assertEquals(recentMessages.size, response.size)
         assertFalse(response.contains(oldMessage))
     }
@@ -159,7 +159,7 @@ internal class MessengerServiceTest {
         )
         addToDB(recentMessages.plus(oldMessage))
 
-        val response = service.getRecentMessagesByRecipient(RID)
+        val response = service.getRecentMessages(RID)
         assertEquals(recentMessages.size, response.size)
         assertFalse(response.contains(oldMessage))
     }

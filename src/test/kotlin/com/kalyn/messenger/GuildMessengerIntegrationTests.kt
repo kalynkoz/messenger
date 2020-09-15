@@ -21,9 +21,9 @@ class GuildMessengerIntegrationTests {
 
     @Test
     fun `hello is successful`() {
-        val response = restTemplate.getForEntity("/hello", String::class.java)
+        val response = restTemplate.getForEntity("/health", String::class.java)
 
         assertTrue(response.statusCode.is2xxSuccessful)
-        assertEquals("Hello from service", response.body)
+        assertEquals("Hello from the messaging service!", response.body)
     }
 }

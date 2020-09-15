@@ -18,7 +18,7 @@ class MessengerService(
     val logger = Logger.getLogger(this::class.java.canonicalName)
 
     // non-private methods could be extracted to interface
-    fun hello(): String {
+    fun health(): String {
         return "Hello from the messaging service!"
     }
 
@@ -29,23 +29,7 @@ class MessengerService(
         db.messagesByRecipient[rId] = allMessages.plus(message)
     }
 
-    fun getMessagesByRecipient(rId: String): List<Message> {
-       return getMessagesWithLimit(rId)
-    }
-
-    fun getAllMessages(): List<Message> {
-        return getMessagesWithLimit()
-    }
-
-    fun getRecentMessagesByRecipient(rId: String): List<Message> {
-        return getRecent(rId)
-    }
-
-    fun getRecentMessages(): List<Message> {
-        return getRecent()
-    }
-
-    private fun getMessagesWithLimit(rId: String? = null): List<Message> {
+    fun getMessagesWithLimit(rId: String? = null): List<Message> {
         val allMessages = getMessages(rId)
 
         if(allMessages.size > LIMIT) {
@@ -56,7 +40,7 @@ class MessengerService(
         return allMessages
     }
 
-    private fun getRecent(rId: String? = null): List<Message> {
+    fun getRecentMessages(rId: String? = null): List<Message> {
         val allMessages = getMessages(rId)
 
         return allMessages.filter { it.sentAt > Instant.now().minus(STALE_DAYS, ChronoUnit.DAYS).epochSecond }
